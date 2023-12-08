@@ -1,12 +1,8 @@
 <?php
-	include "koneksi.php";
+	include"koneksi.php";
 	session_start();
-	$id=$_SESSION['id'];
-	$qkaryawan=mysql_query("select username from login where username like'$id';");
-	while($row=mysql_fetch_array($qkaryawan)){
-		$username = $row['username'];
-	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
+	$qkendaraan=mysql_query("select noplat,foto,tahun,tarifperjam,idtype,nmtype,nmmerk
+	from kendaraan join type using(idtype)join merk using(kodemerk) where nmmerk='Xenia' ");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -31,10 +27,16 @@ echo"
 			</div>
 			<div id='menu'>
 				<ul>
-					<li><a href='homekar.php'>Beranda</a></li>
-					<li><a href='tambah.php'>Tambah Mobil</a></li>
-					<li><a href='kelola.php'>Kelola</a></li>
-					<li><a href='tentangkar.php'>Tentang Kami</a></li>
+					<li><a href='index.php'>Beranda</a></li>
+					<li><a href='#'>Cari Mobil</a>
+						<ul>
+							<li><a href='avanza.php'>Avanza</a></li>
+							<li><a href='jazz.php'>Jazz</a></li>
+							<li><a href='xenia.php'>Xenia</a></li>
+						</ul>
+					</li>
+					<li><a href='cara.php'>Cara Pesan</a></li>
+					<li><a href='tentang.php'>Tentang Kami</a></li>
 					<li><a  href='#'>Kontak Kami</a>
 						<ul>
 							<li><a href='www.facebook.com'>Facebook</a></li>
@@ -42,7 +44,7 @@ echo"
 						</ul>
 					</li>
 					<div class='cari'>
-						<form action='homekar.php' method='get'>
+						<form action='index.php' method='get'>
 							<input name='sitesearch' style='display:none;' value='Jack Car Rental' />
 							<input id='search-box' name='key' onblur='if(this.value==&apos;&apos;)
 							this.value=this.defaultValue;' onfocus='if(this.value==this.defaultValue)this.value=&apos;&apos;;'
@@ -52,14 +54,20 @@ echo"
 					</div>
 					
 				</ul>
-				
 			</div>
 			<div id='content'>
 				<div id='nav'>
 					<div class='formlogin'>
 					<center>
-					<h2><b style='color:black;'>Hai, <b style='color:blue;'>$username</b></b></h2>
-					<a href='logout.php'><input type='submit' value='Keluar' name='button'/></a>
+					<h2><b style='color:black;'>Sign In Karyawan</b></h2>
+					<form name='fform' action='sign.php' method='POST'>
+								<input type='text' name='username' placeholder='username'/>
+								<br />
+								<br />
+								<input type='password' name='pass' placeholder='kata sandi'/>
+								<br />
+								<input type='submit' value='Masuk' name='button'/>
+						 </form>
 					</center>
 					</div>
 					<br />
@@ -84,39 +92,27 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
-	";
-						while ($row = mysql_fetch_array($qsetoran)){
+					<center><h2>Cari Mobil <b style='color:blue;'>Xenia</b></h2></center>
+		";
+						$no = 0;
+						while ($row = mysql_fetch_array($qkendaraan)){
+						$no = $no+1;
 	echo"
-				<div class='form'>
+			<div class='form'>
 					<table border='0' style='width:550px; margin-left:60px;color:black;'>
 						<tr>
-							<td colspan='3' style='color:white;'>.</td>
+							<th colspan='4' style='color:white;'>.</th>
 						</tr>
 						<tr>
-							<td>Nama pelanggan</td>
+							<td rowspan='5'><img src='foto/".$row['foto']."' height='200px' width='290px'></td>
+							<td>Merk</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td style='color:blue;font-size:18px; font-weight:bold;'>".$row['nmtype']." ".$row['nmmerk']."</td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
+							<td>Tarif/Jam</td>
 							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
-						</tr>
-						<tr>
-							<td>Denda</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
-						</tr>
-						<tr>
-							<td>Biaya Kerusakan</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
-						</tr>
-						<tr>
-							<td>Biaya BBM</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
+							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."</td>
 						</tr>
 						<tr>
 							<td>noplat</td>
@@ -124,20 +120,13 @@ echo"
 							<td>".$row['noplat']."</td>
 						</tr>
 						<tr>
-							<td>Biaya sewa</td>
+							<td>tahun</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
-						</tr>
-						<tr>
-							<td>Pemilik Mobil</td>
-							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
+							<td>".$row['tahun']."</td>
 						</tr>
 						<tr>
 							<td colspan='3'>
-								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
-								</center>
+								<a href='pesan.php?idtype=".$row['idtype']."'><input type='submit' class='submit' value='Pesan Sekarang >>' name='button'/></a>
 							</td>
 						</tr>
 	";
@@ -146,12 +135,12 @@ echo"
 					</table>
 				</div>
 				</div>
-		<div id='footer'>
+			</div>
+			<div id='footer'>
 				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
-		</div>	
+			</div>
 		</div>
 		
-		</div>
 	</body>
 </html>
 ";

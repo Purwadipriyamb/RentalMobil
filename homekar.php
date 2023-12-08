@@ -1,12 +1,13 @@
 <?php
-	include "koneksi.php";
+	include"koneksi.php";
 	session_start();
 	$id=$_SESSION['id'];
+	$qkendaraan=mysql_query("select noplat,foto,tahun,tarifperjam,idtype,nmtype,nmmerk
+	from kendaraan join type using(idtype)join merk using(kodemerk)");
 	$qkaryawan=mysql_query("select username from login where username like'$id';");
 	while($row=mysql_fetch_array($qkaryawan)){
 		$username = $row['username'];
 	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -84,39 +85,27 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
+					<center><h2>Selamat Datang Karyawan <b style='color:blue;'>$username</b></h2></center>
 	";
-						while ($row = mysql_fetch_array($qsetoran)){
+						$no = 0;
+						while ($row = mysql_fetch_array($qkendaraan)){
+						$no = $no+1;
 	echo"
-				<div class='form'>
+			<div class='form'>
 					<table border='0' style='width:550px; margin-left:60px;color:black;'>
 						<tr>
-							<td colspan='3' style='color:white;'>.</td>
+							<th colspan='4' style='color:white;'>.</th>
 						</tr>
 						<tr>
-							<td>Nama pelanggan</td>
+							<td rowspan='5'><img src='foto/".$row['foto']."' height='200px' width='290px'></td>
+							<td>Merk</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td style='color:blue;font-size:18px; font-weight:bold;'>".$row['nmtype']." ".$row['nmmerk']."</td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
+							<td>Tarif/Jam</td>
 							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
-						</tr>
-						<tr>
-							<td>Denda</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
-						</tr>
-						<tr>
-							<td>Biaya Kerusakan</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
-						</tr>
-						<tr>
-							<td>Biaya BBM</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
+							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."</td>
 						</tr>
 						<tr>
 							<td>noplat</td>
@@ -124,20 +113,14 @@ echo"
 							<td>".$row['noplat']."</td>
 						</tr>
 						<tr>
-							<td>Biaya sewa</td>
+							<td>tahun</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
-						</tr>
-						<tr>
-							<td>Pemilik Mobil</td>
-							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
+							<td>".$row['tahun']."</td>
 						</tr>
 						<tr>
 							<td colspan='3'>
-								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
-								</center>
+								<a href='ubah.php?idtype=".$row['idtype']."'><input type='submit' class='submit' value='Edit' name='button'/></a>
+								<a href='hapus.php?idtype=".$row['idtype']."'><input type='submit' class='submit' value='Hapus' name='button'/></a>
 							</td>
 						</tr>
 	";
@@ -145,12 +128,11 @@ echo"
 	echo"
 					</table>
 				</div>
-				</div>
+			</div>
+			
+		</div>
 		<div id='footer'>
 				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
-		</div>	
-		</div>
-		
 		</div>
 	</body>
 </html>

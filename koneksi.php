@@ -1,8 +1,8 @@
 <?php
-$h="localhost";
-$u="root";
-$p="";
-$d="purwadi_p";
-$c=mysql_connect($h,$u,$p) or die ("gagal mengkoneksikan");
-mysql_select_db ($d,$c) or die ("gagal memanggil database");
+	$host = "localhost";
+	$username = "root";
+	$password = "";
+	$databasename = "jaka";
+	mysql_connect($host, $username, $password) or die("kesalahan pada koneksinya");
+	mysql_select_db($databasename) or die("databasenya error...");
 ?>

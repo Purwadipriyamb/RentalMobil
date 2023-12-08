@@ -2,11 +2,11 @@
 	include "koneksi.php";
 	session_start();
 	$id=$_SESSION['id'];
+	$qkelola=mysql_query("select *from transaksisewa join pelanggan using(noktp)");
 	$qkaryawan=mysql_query("select username from login where username like'$id';");
 	while($row=mysql_fetch_array($qkaryawan)){
 		$username = $row['username'];
 	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -84,59 +84,65 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
-	";
-						while ($row = mysql_fetch_array($qsetoran)){
+";
+						$no = 0;
+						while ($row = mysql_fetch_array($qkelola)){
+						$no = $no+1;
 	echo"
-				<div class='form'>
-					<table border='0' style='width:550px; margin-left:60px;color:black;'>
+			<div class='form'>
+					<table border='0' style='width:400px; margin-left:150px;color:black;'>
 						<tr>
-							<td colspan='3' style='color:white;'>.</td>
+							<td colspan='3' style='color:black;'>.</td>
 						</tr>
 						<tr>
-							<td>Nama pelanggan</td>
+							<td>Nama Pelanggan</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td>".$row['namapel']."</td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
-							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
-						</tr>
-						<tr>
-							<td>Denda</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
-						</tr>
-						<tr>
-							<td>Biaya Kerusakan</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
-						</tr>
-						<tr>
-							<td>Biaya BBM</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
-						</tr>
-						<tr>
-							<td>noplat</td>
+							<td>KTP</td>
 							<td>:</td>						
+							<td>".$row['noktp']."</td>
+						</tr>
+						<tr>
+							<td>alamat</td>
+							<td>:</td>
+							<td>".$row['alamatpel']."</td>
+						</tr>
+						<tr>
+							<td>telepon</td>
+							<td>:</td>
+							<td>".$row['telppel']."</td>
+						</tr>
+						<tr>
+							<td>Tgl Pinjam</td>
+							<td>:</td>
+							<td>".$row['tglpinjam']."</td>
+						</tr>
+						<tr>
+							<td>Jam Pinjam</td>
+							<td>:</td>
+							<td>".$row['jampinjam']."</td>
+						</tr>
+						<tr>
+							<td>Tgl Rencana Kembali</td>
+							<td>:</td>
+							<td>".$row['tglkembalirencana']."</td>
+						</tr>
+						<tr>
+							<td>Jam Rencana Kembali</td>
+							<td>:</td>
+							<td>".$row['jamkembalirencana']."</td>
+						</tr>
+						<tr>
+							<td>Plat</td>
+							<td>:</td>
 							<td>".$row['noplat']."</td>
-						</tr>
-						<tr>
-							<td>Biaya sewa</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
-						</tr>
-						<tr>
-							<td>Pemilik Mobil</td>
-							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
 						</tr>
 						<tr>
 							<td colspan='3'>
 								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
+								<a href='ubahkelola.php?noktp=".$row['noktp']."'><input type='submit' class='submit' value='Mobil telah dikembalikan' name='button'/></a>
 								</center>
 							</td>
 						</tr>
@@ -146,11 +152,10 @@ echo"
 					</table>
 				</div>
 				</div>
+			
+		</div>
 		<div id='footer'>
 				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
-		</div>	
-		</div>
-		
 		</div>
 	</body>
 </html>

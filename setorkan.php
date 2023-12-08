@@ -1,12 +1,11 @@
 <?php
-	include "koneksi.php";
+	include"koneksi.php";
 	session_start();
 	$id=$_SESSION['id'];
 	$qkaryawan=mysql_query("select username from login where username like'$id';");
 	while($row=mysql_fetch_array($qkaryawan)){
 		$username = $row['username'];
 	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -42,7 +41,7 @@ echo"
 						</ul>
 					</li>
 					<div class='cari'>
-						<form action='homekar.php' method='get'>
+						<form action='tambah.php' method='get'>
 							<input name='sitesearch' style='display:none;' value='Jack Car Rental' />
 							<input id='search-box' name='key' onblur='if(this.value==&apos;&apos;)
 							this.value=this.defaultValue;' onfocus='if(this.value==this.defaultValue)this.value=&apos;&apos;;'
@@ -84,73 +83,43 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
-	";
-						while ($row = mysql_fetch_array($qsetoran)){
-	echo"
-				<div class='form'>
-					<table border='0' style='width:550px; margin-left:60px;color:black;'>
+					<center><h2>Setorkan</h2></center>
+					<div class='form' style='margin-left:170px;'>
+				<form action='penyetoran.php' method='POST'>
+				<center>
+					<table style='color:black;'>
 						<tr>
-							<td colspan='3' style='color:white;'>.</td>
-						</tr>
-						<tr>
-							<td>Nama pelanggan</td>
+							<td>tglsetoran</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td><input type='date' name='tglsetoran'/></td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
+							<td>Jumlah</td>
 							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
+							<td><input type='text' name='jumlah'/></td>
 						</tr>
 						<tr>
-							<td>Denda</td>
+							<td>NIK</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
+							<td><input type='text' name='nik'/></td>
 						</tr>
 						<tr>
-							<td>Biaya Kerusakan</td>
+							<td>kode pemilik</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
+							<td><input type='text' name='kodepemilik'/></td>
 						</tr>
 						<tr>
-							<td>Biaya BBM</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
+							<td align='center' colspan='3'><input type='reset' class='submit' value='Reset' onclick='return confirm('hapus data yang telah diinput?')'> <input type='submit' class='submit' value='Simpan' name='button'/></td>
 						</tr>
-						<tr>
-							<td>noplat</td>
-							<td>:</td>						
-							<td>".$row['noplat']."</td>
-						</tr>
-						<tr>
-							<td>Biaya sewa</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
-						</tr>
-						<tr>
-							<td>Pemilik Mobil</td>
-							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
-						</tr>
-						<tr>
-							<td colspan='3'>
-								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
-								</center>
-							</td>
-						</tr>
-	";
-						}
-	echo"
 					</table>
+				</center>
+				</form>
 				</div>
-				</div>
-		<div id='footer'>
-				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
-		</div>	
+			</div>
 		</div>
-		
+			<div id='footer'>
+				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
+			</div>
 		</div>
 	</body>
 </html>

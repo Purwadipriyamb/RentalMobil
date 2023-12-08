@@ -1,12 +1,27 @@
 <?php
-	include "koneksi.php";
+	include"koneksi.php";
 	session_start();
+	$noktp= $_GET['noktp'];
+	$qubahkelola=mysql_query("select *from transaksisewa where noktp='$noktp'");
+	while($row=mysql_fetch_array($qubahkelola)){
+	$tglkembalirealisasi= $row['tglkembalirealisasi'];
+	$jamkembalireal= $row['jamkembalireal'];
+	$denda= $row['denda'];
+	$kilometerpinjam= $row['kilometerpinjam'];
+	$kilometerkembali= $row['kilometerkembali'];
+	$bbmpinjam= $row['bbmpinjam'];
+	$bbmkembali= $row['bbmkembali'];
+	$kondisimobilpinjam= $row['kondisimobilpinjam'];
+	$kondisimobilkembali= $row['kondisimobilkembali'];
+	$kerusakan= $row['kerusakan'];
+	$biayakerusakan= $row['biayakerusakan'];
+	$biayabbm= $row['biayabbm'];
+	
 	$id=$_SESSION['id'];
 	$qkaryawan=mysql_query("select username from login where username like'$id';");
 	while($row=mysql_fetch_array($qkaryawan)){
 		$username = $row['username'];
 	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -84,75 +99,87 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
-	";
-						while ($row = mysql_fetch_array($qsetoran)){
-	echo"
-				<div class='form'>
-					<table border='0' style='width:550px; margin-left:60px;color:black;'>
+				<center><h2><b style='color:black; font-weight:bold;'>Mobil Telah Dikembalikan</b></h2></center>
+				<div class='form' style='margin-left:170px;'>
+				<form action='perubahankelola.php?noktp=$noktp' method='POST'>
+				<center>
+					<table style='color:black;'>
 						<tr>
-							<td colspan='3' style='color:white;'>.</td>
-						</tr>
-						<tr>
-							<td>Nama pelanggan</td>
+							<td>tanggalkembali</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td><input type='date' name='tglkembalirealisasi' size='30'/></td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
+							<td>jam kembali</td>
 							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
+							<td><input type='time' name='jamkembalireal' size='20'/></td>
 						</tr>
 						<tr>
-							<td>Denda</td>
+							<td>denda</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
+							<td><input type='text' name='denda' size='20' placeholder='denda'/></td>
 						</tr>
 						<tr>
-							<td>Biaya Kerusakan</td>
+							<td>kilometerpinjam</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
+							<td><input type='text' name='kilometerpinjam' size='20' placeholder='KM pinjam'/></td>
 						</tr>
 						<tr>
-							<td>Biaya BBM</td>
+							<td>kilometerkembali</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
+							<td><input type='text' name='kilometerkembali' size='20' placeholder='KM kembali'/></td>
 						</tr>
 						<tr>
-							<td>noplat</td>
-							<td>:</td>						
-							<td>".$row['noplat']."</td>
-						</tr>
-						<tr>
-							<td>Biaya sewa</td>
+							<td>bbm pinjam</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
+							<td><input type='text' name='bbmpinjam' size='20' placeholder='bbm pinjam'/></td>
 						</tr>
 						<tr>
-							<td>Pemilik Mobil</td>
+							<td>bbm kembali</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
+							<td><input type='text' name='bbmkembali' size='20' placeholder='bbm kembali'/></td>
 						</tr>
 						<tr>
-							<td colspan='3'>
-								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
-								</center>
-							</td>
+							<td>kondisimobilpinjam</td>
+							<td>:</td>
+							<td><input type='text' name='kondisimobilpinjam' size='20' placeholder='kondisi mobil pinjam'/></td>
 						</tr>
-	";
-						}
-	echo"
+						<tr>
+							<td>kondisimobilkembali</td>
+							<td>:</td>
+							<td><input type='text' name='kondisimobilkembali' size='20' placeholder='kondisi mobil kembali'/></td>
+						</tr>
+						<tr>
+							<td>kerusakan</td>
+							<td>:</td>
+							<td><input type='text' name='kerusakan' size='20' placeholder='kerusakan'/></td>
+						</tr>
+						<tr>
+							<td>biaya kerusakan</td>
+							<td>:</td>
+							<td><input type='text' name='biayakerusakan' size='20' placeholder='biaya kerusakan'/></td>
+						</tr>
+						<tr>
+							<td>biaya bbm</td>
+							<td>:</td>
+							<td><input type='text' name='biayabbm' size='20' placeholder='biaya bbm'/></td>
+						</tr>
+						<tr>
+							<td align='center'></td>
+							<td></td>
+							<td align='center'><input type='reset' class='submit' value='Reset' onclick='return confirm('hapus data yang telah diinput?')'> <input type='submit' class='submit' value='Simpan' name='button'/></td>
+						</tr>
 					</table>
+				</center>
+				</form>
 				</div>
 				</div>
+		</div>
 		<div id='footer'>
 				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
-		</div>	
-		</div>
-		
 		</div>
 	</body>
 </html>
 ";
+}
 ?>

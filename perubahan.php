@@ -1,22 +1,16 @@
 <?php
-	include "koneksi.php";
+	include"koneksi.php";
 	
-	$NoPlat=$_GET['NoPlat'];
-	$Tahun=$_POST['Tahun'];
-	$TarifPerJam=$_POST['TarifPerJam'];
-	$StatusRental=$_POST['StatusRental'];
-	$IDType=$_POST['IDType'];
-	$KodePemilik=$_POST['KodePemilik'];
+	$idtype= $_GET['idtype'];
 	
-	$query=mysql_query("update kendaraan set Tahun='$Tahun', TarifPerJam='$TarifPerJam', StatusRental='$StatusRental', IDType='$IDType', KodePemilik='$KodePemilik'
-	where NoPlat like '$NoPlat';",
-	$c)or die(mysql_error());
+	$noplat= $_POST['noplat'];
+	$foto=$_POST['foto'];
+	$tahun= $_POST['tahun'];
+	$tarifperjam= $_POST['tarifperjam'];
+	$statusrental= $_POST['statusrental'];
+	$kodepemilik= $_POST['kodepemilik'];
+
+	$qkendaraan=mysql_query("UPDATE kendaraan SET noplat='$noplat', foto='$foto', tahun='$tahun', tarifperjam='$tarifperjam', statusrental='$statusrental', idtype='$idtype', kodepemilik='$kodepemilik' where idtype like '$idtype';");
 	
-	if($query){
-?>
-	<script language="JavaScript">
-		document.location='kendaraan.php';
-	</script>
-<?php
-	}
+	header("location:homekar.php");
 ?>

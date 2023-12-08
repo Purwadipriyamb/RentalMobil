@@ -1,13 +1,3 @@
-<?php
-	include"koneksi.php";
-	session_start();
-	$idtype= $_GET['idtype'];
-	$qkendaraan=mysql_query("select *from kendaraan where idtype='$idtype'");
-	while($row=mysql_fetch_array($qkendaraan)){
-	$noplat= $row['noplat'];
-	$foto= $row['foto'];
-	}
-echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
 	<head>
@@ -48,17 +38,16 @@ echo"
 						</ul>
 					</li>
 					<div class='cari'>
-						<form action='pesan.php' method='get'>
+						<form action='index.php' method='get'>
 							<input name='sitesearch' style='display:none;' value='Jack Car Rental' />
 							<input id='search-box' name='key' onblur='if(this.value==&apos;&apos;)
 							this.value=this.defaultValue;' onfocus='if(this.value==this.defaultValue)this.value=&apos;&apos;;'
 							 style='width:170px;border: 2px solid #00fff0; border-radius: 2px;;padding:2px 10px; font:12px Comic Sans MS;color:#666;no-repeat;'
-							  type='text' placeholder='Cari mobil...'/><input align='top' id='search-btn' src='foto/c10.png' height='25px' type='image' value='Search'/>
+							  type='text' placeholder='Cari mobil...'/><input align='top' id='search-btn' src='foto/c10.png' height="25px" type='image' value='Search'/>
 						</form>
 					</div>
 					
 				</ul>
-				
 			</div>
 			<div id='content'>
 				<div id='nav'>
@@ -96,89 +85,26 @@ echo"
 									</h3>
 						</div>
 				</div>
-				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Pesan Mobil
-					<p><img src='foto/$foto' height='100px' width='180px'></p>
-					<p>Anda memesan mobil dengan nomor plat <b style='color:#1999f3;'>$noplat</b></p>
-					</h2></center>
-					<div class='form' style='margin-left:170px;'>
-				<form action='pemesanan.php?noplat=$noplat' method='POST'>
-				<center>
-					<table style='color:black;'>
+				<div id='main'>
+					<center><h2>Cara Pemesanan</h2></center>
+					<br />
+					<table style='margin-left:50px;'>
 						<tr>
-							<td colspan='3'>Masukkan data diri anda:</td>
+							<td> 1. Cari dan pilih mobil yang akan dipesan, lalu klik <b style='color:blue;'>Pesan Sekarang>></b></td>
 						</tr>
 						<tr>
-							<td>No.KTP</td>
-							<td>:</td>
-							<td><input type='text' name='noktp' size='20' placeholder='nomor KTP'/></td>
+							<td> 2. Isikan biodata anda, lalu klik <b style='color:blue;'>Pesan</b></td>
 						</tr>
 						<tr>
-							<td>Nama</td>
-							<td>:</td>
-							<td><input type='text' name='namapel' size='20' placeholder='nama lengkap'/></td>
-						</tr>
-						<tr>
-							<td>No.Telpn</td>
-							<td>:</td>
-							<td><input type='text' name='telppel' size='20' placeholder='nomor telepon'/></td>
-						</tr>
-						<tr>
-							<td>Alamat</td>
-							<td>:</td>
-							<td><input type='text' name='alamatpel' size='20' placeholder='Alamat'/></td>
-						</tr>
-						<tr>
-							<td colspan='3' style='color:black;'>.</td>
-						</tr>
-						<tr>
-							<td colspan='3'>Masukkan rencana pinjam:</td>
-						</tr>
-						<tr>
-							<td>Tgl.Pinjam</td>
-							<td>:</td>
-							<td><input type='date' name='tglpinjam' size='20'/></td>
-						</tr>
-						<tr>
-							<td>Jam.Pinjam</td>
-							<td>:</td>
-							<td><input type='time' name='jampinjam' size='20'/></td>
-						</tr>
-						<tr>
-							<td colspan='3' style='color:black;'>.</td>
-						</tr>
-						<tr>
-							<td colspan='3'>Masukkan rencana kembali:</td>
-						</tr>
-						<tr>
-							<td>Tgl.Kembali</td>
-							<td>:</td>
-							<td><input type='date' name='tglkembalirencana' size='20'/></td>
-						</tr>
-						<tr>
-							<td>Jam.Kembali</td>
-							<td>:</td>
-							<td><input type='time' name='jamkembalirencana' size='20'/></td>
-						</tr>
-						<tr>
-							<td colspan='3' align='center'><input type='reset' class='submit' value='Reset' onclick='return confirm('hapus data yang telah diinput?')'> <input type='submit' class='submit' value='Pesan' name='button' onclick='myFunction()'/></td>
-							<script>
-							function myFunction() {
-							alert('pemesanan yang anda lakukan berhasil!');
-							}
-							</script>
+							<td> 3. Selamat, anda telah berhasil memesan mobil.</td>
 						</tr>
 					</table>
-				</center>
-				</form>
 				</div>
 			</div>
-		</div>
 			<div id='footer'>
 				<h3>&copy; Copyright 2016 <a style='cursor:pointer; color:#00fff0;'>UKK</a> | Oleh: <a style='cursor:pointer; color:#00fff0;'>Jaka Setiawan</a></h3>
 			</div>
 		</div>
+		
 	</body>
 </html>
-";
-?>

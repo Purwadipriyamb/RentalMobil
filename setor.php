@@ -6,7 +6,7 @@
 	while($row=mysql_fetch_array($qkaryawan)){
 		$username = $row['username'];
 	}
-	$qsetoran=mysql_query("select *from transaksisewa join pelanggan using(noktp)join kendaraan using(noplat)join pemilik using(kodepemilik)");
+	$qsetor=mysql_query("select *from setoran");
 echo"
 <html>
 <link rel='stylesheet' type='text/css' href='style.css' />
@@ -84,9 +84,9 @@ echo"
 						</div>
 				</div>
 				<div id='main' style='overflow:auto; width:100%px; height:739px;'>
-					<center><h2>Setoran</h2></center>
+					<center><h2>Setoran ke pemilik</h2></center>
 	";
-						while ($row = mysql_fetch_array($qsetoran)){
+						while ($row = mysql_fetch_array($qsetor)){
 	echo"
 				<div class='form'>
 					<table border='0' style='width:550px; margin-left:60px;color:black;'>
@@ -94,50 +94,23 @@ echo"
 							<td colspan='3' style='color:white;'>.</td>
 						</tr>
 						<tr>
-							<td>Nama pelanggan</td>
+							<td>tglsetoran</td>
 							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['namapel']."</td>
+							<td style='color:black; font-weight:bold;'>".$row['tglsetoran']."</td>
 						</tr>
 						<tr>
-							<td>no KTP</td>
+							<td>Jumlah</td>
 							<td>:</td>
-							<td style='color:black; font-weight:bold;'>".$row['noktp']."</td>
+							<td style='color:red; font-weight:bold;'>Rp:".$row['jumlah']."</td>
 						</tr>
 						<tr>
-							<td>Denda</td>
+							<td>Setoran karyawan</td>
 							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['denda']."</td>
-						</tr>
-						<tr>
-							<td>Biaya Kerusakan</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayakerusakan']."</td>
-						</tr>
-						<tr>
-							<td>Biaya BBM</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['biayabbm']."</td>
-						</tr>
-						<tr>
-							<td>noplat</td>
-							<td>:</td>						
-							<td>".$row['noplat']."</td>
-						</tr>
-						<tr>
-							<td>Biaya sewa</td>
-							<td>:</td>
-							<td style='color:red; font-weight:bold;'>Rp:".$row['tarifperjam']."/Jam</td>
-						</tr>
-						<tr>
-							<td>Pemilik Mobil</td>
-							<td>:</td>
-							<td style='color:blue; font-weight:bold;'>".$row['nmpemilik']."</td>
+							<td style='color:green; font-weight:bold;'>Rp:".$row['jumlah']." kurangi 10%</td>
 						</tr>
 						<tr>
 							<td colspan='3'>
-								<center>
-								<a href='setorkan.php?kodepemilik=".$row['kodepemilik']."'><input type='submit' class='submit' value='Setorkan' name='button'/></a>
-								</center>
+								
 							</td>
 						</tr>
 	";
